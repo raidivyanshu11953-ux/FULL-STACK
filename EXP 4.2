@@ -1,0 +1,20 @@
+const express = require('express');
+const path = require('path');
+
+const app = express();          // <-- create app BEFORE using it
+app.use(express.json());       // parse JSON bodies
+
+// Serve a static index.html if you want (optional)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Import routes and mount them
+const routes = require('./routes'); // requires src/routes/index.js
+app.use('/', routes);               // use '/' to match the course screenshots
+// If you prefer /api prefix: app.use('/api', routes);
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
